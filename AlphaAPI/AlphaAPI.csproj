@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Confluent.Kafka" Version="1.9.3" />
   </ItemGroup>
 
 </Project>
