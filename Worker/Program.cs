@@ -1,8 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 //Console.WriteLine("Hello, World!");
 
+using Common.Messages;
 using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using System.Net.WebSockets;
 
 namespace Worker
 {
@@ -10,18 +13,6 @@ namespace Worker
     {
         static void Main(string[] args)
         {
-            //if (args.Length < 1)
-            //{
-            //    Console.WriteLine("Please provide the configuration file path as a command line argument");
-            //}
-
-            //IConfiguration configuration = new ConfigurationBuilder()
-            //    .AddIniFile("./Configuration/kafka.properties")
-            //    .Build();
-
-            //configuration["group.id"] = "kafka-core";
-            //configuration["auto.offset.reset"] = "earliest";
-
             var configs = new List<KeyValuePair<string, string>>();
 
             configs.Add(new KeyValuePair<string, string>("bootstrap.servers", "192.168.1.5:9092"));
@@ -42,10 +33,29 @@ namespace Worker
                 consumer.Subscribe(topic);
                 try
                 {
+                   // int count
                     while (true)
                     {
                         var cr = consumer.Consume(cts.Token);
-                        Console.WriteLine($"Consumed event from topic {topic} with key {cr.Message.Key,-10} and value {cr.Message.Value}");
+                        Console.WriteLine(
+                            $"Consumed: topic: {topic} key: {cr.Message.Key} Offset: {cr.Offset} Partition: {cr.Partition.Value}");
+
+                        var message = JsonConvert.DeserializeObject<Message2>(cr.Message.Value);
+
+                        //if (message is Message2) 
+                        //{
+                            //var m2 = message as Message2;
+
+                            if (message.Count == 5)
+                            {
+                                var msg = $"Message: {message.Message} Offset {cr.Offset} in partition {cr.Partition.Value} failed.";
+                                Console.WriteLine(msg);
+                                throw new Exception(msg);
+                            }
+                        //}
+                        
+                        _ = message.ExecuteAsync().Result;
+
                     }
                 }
                 catch (OperationCanceledException)

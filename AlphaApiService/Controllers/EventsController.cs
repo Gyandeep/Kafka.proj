@@ -1,6 +1,6 @@
 ﻿using AlphaApiService.Configuration;
 using AlphaApiService.Entities;
-using AlphaApiService.Messages;
+using Common.Messages;
 using Confluent.Kafka;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -20,20 +20,22 @@ namespace AlphaApiService.Controllers
             _kafkaConfig = kafkaConfiguration;
         }
 
-        [HttpPost("message1")]
+        [HttpPost("messages")]
         public async Task<IActionResult> ProcessEvent(EventEntity eventEntity)
         {
             using (var producer = new ProducerBuilder<string, string>(_kafkaConfig.GetConfigurations()).Build())
             {
-                var message1 = new Message1()
-                {
-                    Key = eventEntity.Key,
-                    Message = eventEntity.Message,
-                };
+                var keys = new string[] { "key1", "key2" };
+                Random rnd = new Random();
 
-                var delivery = await producer.ProduceAsync(message1.Topic, new Message<string, string> 
-                { Key = message1.Key, Value = SerializeMessage(message1) });
-                 eventEntity.Status = delivery.Status.ToString();
+                for (int i = 0; i < eventEntity.MessagesCount; i++)
+                {
+                    // JobMessage message = rnd.Next(0, 2) == 1 ? new Message1() { Message = "Hello" } : new Message2() { Count = i };
+                    var message = new Message2() { Count = i, Message = $"Hello World - {i + 1}" };
+                    var delivery = await producer.ProduceAsync(message.Topic, new Message<string, string>
+                    { Key = null, Value = SerializeMessage(message) });
+                    eventEntity.Status = delivery.Status.ToString(); 
+                }
             }
 
             return new JsonResult(eventEntity);

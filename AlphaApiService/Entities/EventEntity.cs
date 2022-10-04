@@ -1,6 +1,4 @@
-﻿using AlphaApiService.Messages;
-
-namespace AlphaApiService.Entities
+﻿namespace AlphaApiService.Entities
 {
     public class EventEntity
     {
@@ -11,5 +9,7 @@ namespace AlphaApiService.Entities
         public string Key { get; set; }
 
         public string? Status { get; set; }
+
+        public int MessagesCount { get; set; }
     }
 }
