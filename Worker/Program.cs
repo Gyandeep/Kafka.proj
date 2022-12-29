@@ -15,7 +15,7 @@ namespace Worker
         {
             var configs = new List<KeyValuePair<string, string>>();
 
-            configs.Add(new KeyValuePair<string, string>("bootstrap.servers", "192.168.1.5:9092"));
+            configs.Add(new KeyValuePair<string, string>("bootstrap.servers", "192.168.1.3:9092"));
             configs.Add(new KeyValuePair<string, string>("group.id", "kafka-core"));
             configs.Add(new KeyValuePair<string, string>("auto.offset.reset", "earliest"));
 
@@ -40,7 +40,7 @@ namespace Worker
                         Console.WriteLine(
                             $"Consumed: topic: {topic} key: {cr.Message.Key} Offset: {cr.Offset} Partition: {cr.Partition.Value}");
 
-                        var message = JsonConvert.DeserializeObject<Message2>(cr.Message.Value);
+                        var message = JsonConvert.DeserializeObject<WorkerMessage>(cr.Message.Value);
 
                         //if (message is Message2) 
                         //{
@@ -54,7 +54,8 @@ namespace Worker
                             }
                         //}
                         
-                        _ = message.ExecuteAsync().Result;
+                        //_ = message.ExecuteAsync().Result;
+                        //consumer.Commit();
 
                     }
                 }

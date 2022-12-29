@@ -12,6 +12,8 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["AlphaApiService/AlphaApiService.csproj", "AlphaApiService/"]
 #COPY ["AlphaApiService/Configuration/kafka.properties", "AlphaApiService/"]
+COPY ZscalerRootCertificate-2048-SHA256.crt ZscalerRootCertificate-2048-SHA256.crt
+RUN cat ZscalerRootCertificate-2048-SHA256.crt >> /etc/ssl/certs/ca-certificates.crt
 RUN dotnet restore "AlphaApiService/AlphaApiService.csproj"
 COPY . .
 WORKDIR "/src/AlphaApiService"

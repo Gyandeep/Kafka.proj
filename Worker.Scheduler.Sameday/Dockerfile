@@ -5,18 +5,19 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Worker/Worker.csproj", "Worker/"]
+COPY ["Worker.Scheduler.Sameday/Worker.Scheduler.Sameday.csproj", "Worker.Scheduler.Sameday/"]
+COPY ["Common/Common.csproj", "Common/"]
 COPY ZscalerRootCertificate-2048-SHA256.crt ZscalerRootCertificate-2048-SHA256.crt
 RUN cat ZscalerRootCertificate-2048-SHA256.crt >> /etc/ssl/certs/ca-certificates.crt
-RUN dotnet restore "Worker/Worker.csproj"
+RUN dotnet restore "Worker.Scheduler.Sameday/Worker.Scheduler.Sameday.csproj"
 COPY . .
-WORKDIR "/src/Worker"
-RUN dotnet build "Worker.csproj" -c Release -o /app/build
+WORKDIR "/src/Worker.Scheduler.Sameday"
+RUN dotnet build "Worker.Scheduler.Sameday.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Worker.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Worker.Scheduler.Sameday.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Worker.dll"]
+ENTRYPOINT ["dotnet", "Worker.Scheduler.Sameday.dll"]

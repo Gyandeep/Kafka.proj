@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Worker.Main": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

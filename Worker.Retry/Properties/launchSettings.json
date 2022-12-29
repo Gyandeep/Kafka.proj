@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Worker.Retry": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

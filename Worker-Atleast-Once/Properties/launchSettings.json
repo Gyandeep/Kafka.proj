@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Worker-Atleast-Once": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
