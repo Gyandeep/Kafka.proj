@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worker.Scheduler.Sameday", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worker.Scheduler.Future", "Worker.Scheduler.Future\Worker.Scheduler.Future.csproj", "{D5616824-8F9B-4F5C-B12F-C69A53BDF2C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin", "Admin\Admin.csproj", "{CE3416E8-0EBB-49F6-BD02-73ECED4DEAFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin", "Admin\Admin.csproj", "{CE3416E8-0EBB-49F6-BD02-73ECED4DEAFF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.UI", "Admin.UI\Admin.UI.csproj", "{FE623D89-7264-4C8D-811F-F62B7914579B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{CE3416E8-0EBB-49F6-BD02-73ECED4DEAFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE3416E8-0EBB-49F6-BD02-73ECED4DEAFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE3416E8-0EBB-49F6-BD02-73ECED4DEAFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE623D89-7264-4C8D-811F-F62B7914579B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE623D89-7264-4C8D-811F-F62B7914579B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE623D89-7264-4C8D-811F-F62B7914579B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE623D89-7264-4C8D-811F-F62B7914579B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

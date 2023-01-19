@@ -1,0 +1,29 @@
+<div class="shadow p-3 mb-5 bg-body rounded">
+    <p class="fs-5">Schedule Messages</p>
+    <div id="liveAlertPlaceholder" *ngIf="showAlert">
+        <div class="alert alert-{{alertType}} alert-dismissible" role="alert">
+            <div>{{message}}</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <form [formGroup]="queueMessageForm" (ngSubmit)="onSubmit()" class="row gy-2 gx-3 align-items-center">
+        <div class="col-auto">
+            <label class="visually-hidden" for="topic-name">Schedule Message as : </label>
+            <!-- <input id="topic-name" type="text" class="form-control" formControlName="topicName" placeholder="Topic Name"> -->
+            <select class="form-select" formControlName="scheduleAs">
+                <option value="sameday">Same Day</option>
+                <option value="future">Future</option>
+                <option value="immediate">Immediate</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <label class="visually-hidden" for="count">Count: </label>
+            <input id="count" type="text" class="form-control" formControlName="count" placeholder="No. of Messages">
+        </div>
+
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary" [disabled]="!queueMessageForm.valid">Schedule</button>
+        </div>
+    </form>
+</div>

@@ -55,12 +55,14 @@ namespace Worker.Scheduler
                                 {
                                     Console.WriteLine($"Queuing to future Queue. Id: {queueMessage.Id} ScheduledAt: {queueMessage.ScheduledDateTimeUtc} UtcNow: {DateTime.UtcNow}");
                                     //QueueToTopic(queueMessage, futureTopic).Wait();
+                                    Console.WriteLine();
                                     queueMessage.RetryQueueTimeUtc = DateTime.UtcNow;
                                     producer.Produce(futureTopic, new Message<string, string> { Value = JsonUtility.SerializeMessage(queueMessage) });
                                 }
                                 else
                                 {
                                     Console.WriteLine($"Queuing to sameday Queue. Id: {queueMessage.Id} ScheduledAt: {queueMessage.ScheduledDateTimeUtc} UtcNow: {DateTime.UtcNow}");
+                                    Console.WriteLine();
                                     //QueueToTopic(queueMessage, sameDayTopic).Wait();
                                     producer.Produce(sameDayTopic, new Message<string, string> { Value = JsonUtility.SerializeMessage(queueMessage) });
                                 }
@@ -68,7 +70,7 @@ namespace Worker.Scheduler
                                 //consumer.Commit(consumeResult);
                                 producer.SendOffsetsToTransaction(new List<TopicPartitionOffset> { consumeResult.TopicPartitionOffset }, consumer.ConsumerGroupMetadata, TimeSpan.FromSeconds(10));
                                 producer.CommitTransaction();
-                                Console.WriteLine($"Commited offset: {consumeResult.Offset.Value}");
+                                //Console.WriteLine($"Commited offset: {consumeResult.Offset.Value}");
                             }
                             catch (KafkaException e)
                             {

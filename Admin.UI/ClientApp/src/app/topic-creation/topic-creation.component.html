@@ -1,0 +1,25 @@
+<div class="shadow p-3 mb-5 bg-body rounded">
+  <p class="fs-5">Create Topic</p>
+  <div id="liveAlertPlaceholder" *ngIf="showAlert">
+    <div class="alert alert-{{alertType}} alert-dismissible" role="alert">
+      <div>{{message}}</div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="row gy-2 gx-3 align-items-center">
+    <div class="col-auto">
+      <label class="visually-hidden" for="topic-name">Topic Name: </label>
+      <input id="topic-name" type="text" class="form-control" formControlName="topicName" placeholder="Topic Name">
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="partitions">Partitions: </label>
+      <input id="partitions" type="text" class="form-control" formControlName="partitions"
+        placeholder="No. of Partitions">
+    </div>
+
+
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Submit</button>
+    </div>
+  </form>
+</div>

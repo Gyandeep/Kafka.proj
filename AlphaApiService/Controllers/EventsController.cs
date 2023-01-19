@@ -179,5 +179,71 @@ namespace AlphaApiService.Controllers
 
             return new JsonResult(eventEntity);
         }
+
+        [HttpPost("schedulefuturemessages")]
+        public async Task<IActionResult> ScheduleFutureMessagesAsync(EventEntity eventEntity)
+        {
+            using (var producer = new ProducerBuilder<string, string>(_kafkaConfig.GetConfigurations()).Build())
+            {
+                Random random = new Random();
+
+                for (int i = 0; i < eventEntity.MessagesCount; i++)
+                {
+                    var message = new MessageAlpha();
+
+                    //var queueMessage = new QueueMessage()
+                    //{
+                    //    Id = Guid.NewGuid().ToString(),
+                    //    Message = message,
+                    //    ScheduledDateTimeUtc = DateTime.UtcNow.AddMinutes(17) //DateTime.UtcNow.AddMinutes(random.Next(1, 60))
+                    //};
+                    var sameDayQueueMessage = new QueueMessage()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Message = message,
+                        ScheduledDateTimeUtc = DateTime.UtcNow.AddMinutes(16)
+                    };
+
+                    //var delivery = await producer.ProduceAsync("schedulingqueue", new Message<string, string> { Value = JsonUtility.SerializeMessage(queueMessage) });
+                    var delivery = await producer.ProduceAsync("schedulingqueue", new Message<string, string> { Value = JsonUtility.SerializeMessage(sameDayQueueMessage) });
+                    eventEntity.Status = delivery.Status.ToString();
+                }
+            }
+
+            return new JsonResult(eventEntity);
+        }
+
+        [HttpPost("queueimmediatemessages")]
+        public async Task<IActionResult> QueueImmediateMessageAsync(EventEntity eventEntity)
+        {
+            using (var producer = new ProducerBuilder<string, string>(_kafkaConfig.GetConfigurations()).Build())
+            {
+                Random random = new Random();
+
+                for (int i = 0; i < eventEntity.MessagesCount; i++)
+                {
+                    var message = new MessageAlpha();
+
+                    //var queueMessage = new QueueMessage()
+                    //{
+                    //    Id = Guid.NewGuid().ToString(),
+                    //    Message = message,
+                    //    ScheduledDateTimeUtc = DateTime.UtcNow.AddMinutes(17) //DateTime.UtcNow.AddMinutes(random.Next(1, 60))
+                    //};
+                    var sameDayQueueMessage = new QueueMessage()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Message = message,
+                        ScheduledDateTimeUtc = DateTime.UtcNow
+                    };
+
+                    //var delivery = await producer.ProduceAsync("schedulingqueue", new Message<string, string> { Value = JsonUtility.SerializeMessage(queueMessage) });
+                    var delivery = await producer.ProduceAsync("schedulingqueue", new Message<string, string> { Value = JsonUtility.SerializeMessage(sameDayQueueMessage) });
+                    eventEntity.Status = delivery.Status.ToString();
+                }
+            }
+
+            return new JsonResult(eventEntity);
+        }
     }
 }

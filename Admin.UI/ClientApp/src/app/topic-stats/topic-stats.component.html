@@ -1,0 +1,12 @@
+<div class="shadow p-3 mb-5 bg-body rounded">
+    <p class="fs-5">Stats</p>
+    <button class="btn btn-secondary" (click)="onGetStats()">Get Stats</button>
+    <div class="row" *ngIf="stats" style="margin-top: 10px;">
+        <div *ngFor="let topic of stats.topics | keyvalue">
+            <p class="fs-6">{{topic.key}}</p>
+            <div *ngFor="let partition of partitions | keyvalue">
+                <p>Total Messages in partition {{partition.key}}: {{partition.value}}</p>
+            </div>
+        </div>
+    </div>
+</div>

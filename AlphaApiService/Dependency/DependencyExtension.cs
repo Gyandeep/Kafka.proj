@@ -1,4 +1,5 @@
-﻿using AlphaApiService.Configuration;
+﻿using AlphaApiService.Client;
+using AlphaApiService.Configuration;
 
 namespace AlphaApiService.Dependency
 {
@@ -7,6 +8,8 @@ namespace AlphaApiService.Dependency
         public static void AddDependencies(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<IKafkaConfiguration, KafkaConfiguration>();
+            serviceCollection.AddSingleton<AdminClientHandle>();
+            serviceCollection.AddSingleton<KafkaDependentAdmin>();
         }
     }
 }
